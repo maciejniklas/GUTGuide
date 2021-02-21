@@ -1,3 +1,8 @@
+# Ignore Intellij Idea Rider editor files
+.idea
+# Ignore Google Maps examples
+Assets/GoogleMaps/Examples
+
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
