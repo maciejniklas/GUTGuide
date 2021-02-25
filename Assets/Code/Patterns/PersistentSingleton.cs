@@ -11,7 +11,7 @@ namespace GUTGuide.Patterns
         /// <summary>
         /// A singular instance of the class
         /// </summary>
-        private static T Instsance
+        public static T Instance
         {
             get
             {
