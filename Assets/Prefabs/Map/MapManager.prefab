@@ -194,6 +194,13 @@ MonoBehaviour:
     _Lat: 54.3714279
     _Lng: 18.616947400000072
   renderDistance: 1000
+  updateDistance: 100
+  updateAngle: 10
+  unloadUnseenDelay: 5
+  groundPlaneTransform: {fileID: 0}
   OnMapLoadingStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMapUnloaded:
     m_PersistentCalls:
       m_Calls: []
