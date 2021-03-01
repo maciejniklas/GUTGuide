@@ -194,6 +194,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5887594370436855843, guid: 00a84558abc782344b98b803ce04c79a, type: 3}
   m_PrefabInstance: {fileID: 5887594369177398470}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1926575575 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8441575212386533423, guid: 76bfb636346c2d144a93a379110e7723, type: 3}
+  m_PrefabInstance: {fileID: 8441575212354934888}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -576295101, guid: 322c8874b7f0401c8c1211fe39d44d90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!108 &2138677392 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 5372169092214920961, guid: 91539be425a8487409b396c43ce3467d, type: 3}
@@ -417,6 +428,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 908165810, guid: c6c823bb7b22d81498e291d56f0c8b59, type: 3}
+      propertyPath: groundPlaneTransform
+      value: 
+      objectReference: {fileID: 1527960805}
+    - target: {fileID: 908165812, guid: c6c823bb7b22d81498e291d56f0c8b59, type: 3}
+      propertyPath: MapsService
+      value: 
+      objectReference: {fileID: 1926575575}
     - target: {fileID: 5691279586640467393, guid: c6c823bb7b22d81498e291d56f0c8b59, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -632,10 +651,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8441575212386533410, guid: 76bfb636346c2d144a93a379110e7723, type: 3}
-      propertyPath: groundPlaneTransform
-      value: 
-      objectReference: {fileID: 1527960805}
     - target: {fileID: 8441575212386533422, guid: 76bfb636346c2d144a93a379110e7723, type: 3}
       propertyPath: m_Name
       value: MapManager
