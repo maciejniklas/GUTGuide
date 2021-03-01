@@ -198,9 +198,9 @@ MonoBehaviour:
   updateAngle: 10
   unloadUnseenDelay: 5
   groundPlaneTransform: {fileID: 0}
-  OnMapLoadingStarted:
+  onMapLoadingStarted:
     m_PersistentCalls:
       m_Calls: []
-  OnMapUnloaded:
+  onMapUnloaded:
     m_PersistentCalls:
       m_Calls: []
