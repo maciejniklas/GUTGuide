@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8441575212386533422}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -52,49 +52,133 @@ MonoBehaviour:
     _ExtrudedStructureEvents:
       WillCreate:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: GUTGuide.Core.MapEventsHandler, Assembly-CSharp
+            m_MethodName: HandleWillCreateExtrudedStructure
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       DidCreate:
         m_PersistentCalls:
           m_Calls: []
     _ModeledStructureEvents:
       WillCreate:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: GUTGuide.Core.MapEventsHandler, Assembly-CSharp
+            m_MethodName: HandleWillCreateModeledStructure
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       DidCreate:
         m_PersistentCalls:
           m_Calls: []
     _SegmentEvents:
       WillCreate:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: GUTGuide.Core.MapEventsHandler, Assembly-CSharp
+            m_MethodName: HandleWillCreateSegment
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       DidCreate:
         m_PersistentCalls:
           m_Calls: []
     _IntersectionEvents:
       WillCreate:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: GUTGuide.Core.MapEventsHandler, Assembly-CSharp
+            m_MethodName: HandleWillCreateIntersection
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       DidCreate:
         m_PersistentCalls:
           m_Calls: []
     _RegionEvents:
       WillCreate:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: GUTGuide.Core.MapEventsHandler, Assembly-CSharp
+            m_MethodName: HandleWillCreateRegion
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       DidCreate:
         m_PersistentCalls:
           m_Calls: []
     _AreaWaterEvents:
       WillCreate:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: GUTGuide.Core.MapEventsHandler, Assembly-CSharp
+            m_MethodName: HandleWillCreateAreaWater
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       DidCreate:
         m_PersistentCalls:
           m_Calls: []
     _LineWaterEvents:
       WillCreate:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: GUTGuide.Core.MapEventsHandler, Assembly-CSharp
+            m_MethodName: HandleWillCreateLineWater
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       DidCreate:
         m_PersistentCalls:
           m_Calls: []
@@ -118,7 +202,19 @@ MonoBehaviour:
     _TerrainEvents:
       WillCreate:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: GUTGuide.Core.MapEventsHandler, Assembly-CSharp
+            m_MethodName: HandleWillCreateTerrain
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       DidCreate:
         m_PersistentCalls:
           m_Calls: []
@@ -130,17 +226,29 @@ MonoBehaviour:
           m_Calls: []
       AlphaMapsNeedPaint:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: GUTGuide.Core.MapEventsHandler, Assembly-CSharp
+            m_MethodName: HandleAlphaMapsNeedPaint
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       DidPaint:
         m_PersistentCalls:
           m_Calls: []
   EnableModeledStructures: 1
   EnablePrivateRoads: 0
-  EnableTerrain: 0
+  EnableTerrain: 1
   ObjectCreationFrameBudget: 0
   StaticBatching: 0
   TerrainOptions:
-    TerrainMeshMetersPerPoint: 1
+    TerrainMeshMetersPerPoint: 10
     AltitudePrecision: 0.01
   EnableIntersections: 0
   EnableExhaustiveIntersectionReconstruction: 1

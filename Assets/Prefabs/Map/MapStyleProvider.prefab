@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6492467722881541352}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3199997, y: 1.2030001, z: 2.3780003}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -45,3 +45,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapStyleData:
   - {fileID: 11400000, guid: d598f1d347e4eb24589e05ec9a9c3410, type: 2}
+  terrainControlTexture: {fileID: 2100000, guid: bb759b1e0699eae4c90fb766973ecba9, type: 2}
+  alphaMapResolutionMetersPerPixel: 1
+  baseMapResolutionMetersPerPixel: 10
+  baseMapDistance: 2000
+  terrainLayers:
+  - {fileID: 8574412962073106934, guid: 9d92a1e3562932946ba92a7e316ce939, type: 2}
+  - {fileID: 8574412962073106934, guid: f76245f9ff03ef84daf66262461d1e90, type: 2}
+  - {fileID: 8574412962073106934, guid: 3bf8c169470a6f246894eb3b6dcb2d86, type: 2}
+  - {fileID: 8574412962073106934, guid: b376791c5e4f5b84ea614cd270853afe, type: 2}
