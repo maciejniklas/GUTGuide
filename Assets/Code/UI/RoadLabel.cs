@@ -79,7 +79,11 @@ namespace GUTGuide.UI
                 closestDistance = currentDistance;
             }
 
-            transform.position = _lineMidPoints[closestMidPointIndex];
+            // Set the position of the road label
+            var roadLabelTransform = transform;
+            var closestMidPointPosition = _lineMidPoints[closestMidPointIndex];
+            roadLabelTransform.position = new Vector3(closestMidPointPosition.x, roadLabelTransform.position.y,
+                closestMidPointPosition.z);
         }
 
         /// <summary>

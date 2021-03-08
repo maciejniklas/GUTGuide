@@ -4,6 +4,7 @@ using Google.Maps.Loading;
 using GUTGuide.DataStructures;
 using GUTGuide.Utilities;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GUTGuide.Core
 {
@@ -30,6 +31,11 @@ namespace GUTGuide.Core
         [SerializeField] private Transform groundPlaneTransform;
 
         /// <summary>
+        /// Called whenever this some region is unloaded
+        /// </summary>
+        public UnityEvent<Vector3, float> onMapRegionUnload;
+
+        /// <summary>
         /// Reference to the main camera of the game
         /// </summary>
         private Camera _mainCamera;
@@ -54,10 +60,13 @@ namespace GUTGuide.Core
         /// </summary>
         private MapLoader _mapLoader;
 
+        private MixedZoom _mixedZoom;
+
         private void Awake()
         {
             _mainCamera = Camera.main;
             _mapLoader = GetComponent<MapLoader>();
+            _mixedZoom = GetComponent<MixedZoom>();
         }
 
         private void Start()
@@ -102,7 +111,20 @@ namespace GUTGuide.Core
             {
                 _mapLoader.UnloadUnused();
                 _lastUnloadPosition = mainCameraPosition;
+                
+                onMapRegionUnload?.Invoke(mainCameraPosition, _mixedZoom.ForegroundDistance);
             }
+        }
+
+        /// <summary>
+        /// Unload all objects and load it again
+        /// </summary>
+        public void Reload()
+        {
+            _mapLoader.MapsService.GameObjectManager?.DestroyAll();
+
+            foreach (Transform child in _mapLoader.MapsService.transform) Destroy(child);
+            _mapLoader.Load();
         }
     }
 }
