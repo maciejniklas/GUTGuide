@@ -121,7 +121,13 @@ MonoBehaviour:
   loadDistance: 10
   updateAngle: 10
   unloadDistance: 100
+  minimalSquashDistance: 50
+  maximalSquashDistance: 300
+  maximalSquashScale: 0.4
   groundPlaneTransform: {fileID: 0}
+  onMapRegionUnload:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &908165811
 MonoBehaviour:
   m_ObjectHideFlags: 0

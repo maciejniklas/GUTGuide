@@ -1,4 +1,6 @@
-﻿using Google.Maps;
+﻿using System;
+using Code.Styling;
+using Google.Maps;
 using Google.Maps.Coord;
 using Google.Maps.Loading;
 using GUTGuide.DataStructures;
@@ -25,6 +27,15 @@ namespace GUTGuide.Core
         [SerializeField] [Range(1, 90)] private float updateAngle = 5f;
         [Tooltip("Unload unused parts of the map when the camera position has moved this far")]
         [SerializeField] private float unloadDistance = 100f;
+
+        [Header("Buildings squashing settings")]
+        
+        [Tooltip("Distance from the target where buildings start squashing")]
+        [SerializeField] [Range(10, 200)] private float minimalSquashDistance = 50;
+        [Tooltip("Distance from the target where buildings stop squashing")]
+        [SerializeField] [Range(250, 1000)] private float maximalSquashDistance = 300;
+        [Tooltip("Maximal squash scale of the building")]
+        [SerializeField] [Range(0.01f, 1)] private float maximalSquashScale = 0.1f;
 
         [Header("References")]
         
@@ -116,6 +127,24 @@ namespace GUTGuide.Core
             }
         }
 
+        private void OnDisable()
+        {
+            if (_mapLoader is null) return;
+
+            _mapLoader.MapsService.Events.ExtrudedStructureEvents.DidCreate.RemoveListener(arguments =>
+                AddSquasher(arguments.GameObject));
+            _mapLoader.MapsService.Events.ModeledStructureEvents.DidCreate.RemoveListener(arguments =>
+                AddSquasher(arguments.GameObject));
+        }
+
+        private void OnEnable()
+        {
+            _mapLoader.MapsService.Events.ExtrudedStructureEvents.DidCreate.AddListener(arguments =>
+                AddSquasher(arguments.GameObject));
+            _mapLoader.MapsService.Events.ModeledStructureEvents.DidCreate.AddListener(arguments =>
+                AddSquasher(arguments.GameObject));
+        }
+
         /// <summary>
         /// Unload all objects and load it again
         /// </summary>
@@ -125,6 +154,17 @@ namespace GUTGuide.Core
 
             foreach (Transform child in _mapLoader.MapsService.transform) Destroy(child);
             _mapLoader.Load();
+        }
+
+        /// <summary>
+        /// Add and initialize <see cref="Squasher"/> component to the selected <see cref="GameObject"/>
+        /// </summary>
+        /// <param name="buildingObject"><see cref="GameObject"/> to which <see cref="Squasher"/> will be added</param>
+        private void AddSquasher(GameObject buildingObject)
+        {
+            var squasher = buildingObject.AddComponent<Squasher>();
+            squasher.Initialize(_mainCamera.transform, minimalSquashDistance, maximalSquashDistance,
+                maximalSquashScale);
         }
     }
 }
