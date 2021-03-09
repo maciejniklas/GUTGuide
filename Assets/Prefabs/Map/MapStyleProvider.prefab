@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapStyleData:
   - {fileID: 11400000, guid: d598f1d347e4eb24589e05ec9a9c3410, type: 2}
+  - {fileID: 11400000, guid: c96ce1d0a954c7946a92d379664c6101, type: 2}
   terrainControlTexture: {fileID: 2100000, guid: bb759b1e0699eae4c90fb766973ecba9, type: 2}
   alphaMapResolutionMetersPerPixel: 1
   baseMapResolutionMetersPerPixel: 10
