@@ -5119,78 +5119,78 @@
             <inheritdoc /></member>
         <member name="M:Google.Maps.IO.UnityFileOps.ConcatPaths(System.String,System.String)">
             <inheritdoc /></member>
-        <member name="T:Google.Maps.Loading.MapLoader">
+        <member name="T:Google.Maps.Loading.MixedMapLoader">
             <summary>
             Script that attaches to a GameObject with a Camera component, and loads a region of the map
             visible to that camera.
             </summary></member>
-        <member name="F:Google.Maps.Loading.MapLoader.MapsService">
+        <member name="F:Google.Maps.Loading.MixedMapLoader.MapsService">
             <summary>The <see cref="T:Google.Maps.MapsService" /> to be used to load the map.</summary></member>
-        <member name="F:Google.Maps.Loading.MapLoader.Zoom">
+        <member name="F:Google.Maps.Loading.MixedMapLoader.Zoom">
             <summary>Zoom level at which to load the map.</summary></member>
-        <member name="T:Google.Maps.Loading.MapLoader.RegionShapeEnum">
+        <member name="T:Google.Maps.Loading.MixedMapLoader.RegionShapeEnum">
             <summary>Enum representing the possible shapes of map regions to load.</summary></member>
-        <member name="F:Google.Maps.Loading.MapLoader.RegionShapeEnum.Circle">
+        <member name="F:Google.Maps.Loading.MixedMapLoader.RegionShapeEnum.Circle">
             <summary>Loads a circular region of the map centered on the camera.</summary></member>
-        <member name="F:Google.Maps.Loading.MapLoader.RegionShapeEnum.Viewport">
+        <member name="F:Google.Maps.Loading.MixedMapLoader.RegionShapeEnum.Viewport">
             <summary>Loads the region of the map visible to the camera.</summary></member>
-        <member name="F:Google.Maps.Loading.MapLoader.RegionShape">
+        <member name="F:Google.Maps.Loading.MixedMapLoader.RegionShape">
             <summary>Shape of region to load.</summary></member>
-        <member name="F:Google.Maps.Loading.MapLoader.Horizon">
+        <member name="F:Google.Maps.Loading.MixedMapLoader.Horizon">
             <summary>Maximum distance from the camera at which to load the map.</summary></member>
-        <member name="F:Google.Maps.Loading.MapLoader.UnloadUnusedSeconds">
+        <member name="F:Google.Maps.Loading.MixedMapLoader.UnloadUnusedSeconds">
             <summary>
             Only unload parts of the map that have been inactive for at least this long.
             </summary></member>
-        <member name="F:Google.Maps.Loading.MapLoader.GameObjectOptions">
+        <member name="F:Google.Maps.Loading.MixedMapLoader.GameObjectOptions">
             <summary>
-            Options used to load the map. Initialized with <see cref="M:Google.Maps.Loading.MapLoader.Init(Google.Maps.GameObjectOptions)" />.
+            Options used to load the map. Initialized with <see cref="M:Google.Maps.Loading.MixedMapLoader.Init(Google.Maps.GameObjectOptions)" />.
             </summary></member>
-        <member name="F:Google.Maps.Loading.MapLoader.Camera">
+        <member name="F:Google.Maps.Loading.MixedMapLoader.Camera">
             <summary>Camera component of the GameObject that this script is attached to.</summary></member>
-        <member name="F:Google.Maps.Loading.MapLoader.MixedZoom">
+        <member name="F:Google.Maps.Loading.MixedMapLoader.MixedZoom">
             <summary>Component of the GameObject that contains mixed zoom options.</summary></member>
-        <member name="M:Google.Maps.Loading.MapLoader.Start">
+        <member name="M:Google.Maps.Loading.MixedMapLoader.Start">
             <summary>Called by Unity when the script is enabled.</summary></member>
-        <member name="M:Google.Maps.Loading.MapLoader.Init(Google.Maps.GameObjectOptions)">
+        <member name="M:Google.Maps.Loading.MixedMapLoader.Init(Google.Maps.GameObjectOptions)">
             <summary>
             Initializes the script with options to use when loading the map. This must be called before
-            <see cref="M:Google.Maps.Loading.MapLoader.Load" /> is called for the first time.
+            <see cref="M:Google.Maps.Loading.MixedMapLoader.Load" /> is called for the first time.
             </summary>
             <param name="loadingOptions">Options used to load the map.</param></member>
-        <member name="M:Google.Maps.Loading.MapLoader.Load">
+        <member name="M:Google.Maps.Loading.MixedMapLoader.Load">
             <summary>Loads the region of the map based on the camera's current position.</summary></member>
-        <member name="M:Google.Maps.Loading.MapLoader.UnloadUnused">
+        <member name="M:Google.Maps.Loading.MixedMapLoader.UnloadUnused">
             <summary>
             Unloads parts of the map that have not been loaded or displayed in the last
-            <see cref="F:Google.Maps.Loading.MapLoader.UnloadUnusedSeconds" /> seconds.
+            <see cref="F:Google.Maps.Loading.MixedMapLoader.UnloadUnusedSeconds" /> seconds.
             </summary></member>
-        <member name="M:Google.Maps.Loading.MapLoader.OnPreCull">
+        <member name="M:Google.Maps.Loading.MixedMapLoader.OnPreCull">
             <summary>Called by Unity before the attached camera culls the scene for rendering.</summary>
             <remarks>
             The visibility of GameObjects to the attached camera is determined after this method is
             called. See https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnPreCull.html for more
             information.
             </remarks></member>
-        <member name="M:Google.Maps.Loading.MapLoader.AddLoadRegion(Google.Maps.MapLoadRegion)">
+        <member name="M:Google.Maps.Loading.MixedMapLoader.AddLoadRegion(Google.Maps.MapLoadRegion)">
             <summary>
             Adds a load region shape to the given <see cref="T:Google.Maps.MapLoadRegion" />.
             </summary>
             <param name="region">The <see cref="T:Google.Maps.MapLoadRegion" /> to add the region shape to.</param></member>
         <member name="T:Google.Maps.Loading.MixedZoom">
             <summary>
-            Extra parameters for a <see cref="T:Google.Maps.Loading.MapLoader" /> to load the map at lower zoom levels further
+            Extra parameters for a <see cref="T:Google.Maps.Loading.MixedMapLoader" /> to load the map at lower zoom levels further
             from the camera.
             </summary></member>
         <member name="F:Google.Maps.Loading.MixedZoom.ForegroundDistance">
             <summary>
             Parts of the map within this many world space units of the camera position will be loaded at
-            the zoom level set by <see cref="F:Google.Maps.Loading.MapLoader.Zoom" />.
+            the zoom level set by <see cref="F:Google.Maps.Loading.MixedMapLoader.Zoom" />.
             </summary></member>
         <member name="F:Google.Maps.Loading.MixedZoom.FalloffDistance">
             <summary>
             The distance beyond <see cref="F:Google.Maps.Loading.MixedZoom.ForegroundDistance" /> that is loaded one zoom level lower
-            than the level set by <see cref="F:Google.Maps.Loading.MapLoader.Zoom" />. After that, the distance between zoom
+            than the level set by <see cref="F:Google.Maps.Loading.MixedMapLoader.Zoom" />. After that, the distance between zoom
             levels doubles each time.
             </summary></member>
         <member name="T:Google.Maps.Loading.MixedZoomOptions">
