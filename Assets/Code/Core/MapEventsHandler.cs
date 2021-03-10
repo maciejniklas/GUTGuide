@@ -44,7 +44,17 @@ namespace GUTGuide.Core
         /// </summary>
         public void HandleWillCreateExtrudedStructure(WillCreateExtrudedStructureArgs arguments)
         {
-            arguments.Style = _mapDefaultStyle.ExtrudedStructureStyle;
+            var isGutBuilding = GutBuildingData.CheckIsGutBuilding(arguments.MapFeature.Metadata.PlaceId);
+
+            if (isGutBuilding)
+            {
+                var mapGutStyle = MapStyleProvider.Instance.GetMapStyle(MapStyleData.Type.Gut);
+                arguments.Style = mapGutStyle.ExtrudedStructureStyle;
+            }
+            else
+            {
+                arguments.Style = _mapDefaultStyle.ExtrudedStructureStyle;
+            }
         }
 
         /// <summary>

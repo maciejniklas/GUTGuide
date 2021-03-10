@@ -16,11 +16,8 @@ namespace GUTGuide.DataStructures
         /// <summary>
         /// Style type for different objects styling
         /// </summary>
-        public enum Type
-        {
-            Default
-        }
-
+        public enum Type { Default, Gut }
+ 
         /// <summary>
         /// Style type for different objects styling
         /// </summary>
