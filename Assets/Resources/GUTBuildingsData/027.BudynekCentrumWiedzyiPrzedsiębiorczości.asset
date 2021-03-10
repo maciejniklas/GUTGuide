@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4898f1d55cf413a9cd42fac3c909a74, type: 3}
+  m_Name: "027.BudynekCentrumWiedzyiPrzedsi\u0119biorczo\u015Bci"
+  m_EditorClassIdentifier: 
+  id: ChIJjU7BgJl0_UYRnaewI3wJNGY
+  fullName: "Budynek Centrum Wiedzy i Przedsi\u0119biorczo\u015Bci"
+  shortcut: CWiP
+  number: 27
+  address: "Gda\u0144sk al. Zwyci\u0119stwa 27"
