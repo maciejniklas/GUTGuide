@@ -40,6 +40,18 @@ namespace GUTGuide.Utilities
         /// </summary>
         public Material TerrainControlTexture => terrainControlTexture;
 
+        public Material[] GetBuildingMaterials(int index, MapStyleData.Type styleType)
+        {
+            var styleData = mapStyleData.FirstOrDefault(element => element.StyleType == styleType);
+
+            if (styleData == null) return new Material[0];
+            
+            var validIndex = index % styleData.WallsMaterials.Length;
+            var materials = new[] {styleData.WallsMaterials[validIndex], styleData.RoofMaterials[validIndex]};
+
+            return materials;
+        }
+
         /// <summary>
         /// Receive map style
         /// </summary>

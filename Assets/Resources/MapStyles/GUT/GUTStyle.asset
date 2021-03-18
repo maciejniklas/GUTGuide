@@ -19,3 +19,17 @@ MonoBehaviour:
   modeledStructureStyleSettings: {fileID: 11400000, guid: a76b67a90ea91e449990c1ef907f3c91, type: 2}
   regionStyleSettings: {fileID: 11400000, guid: 42fcb8f19fde00341b160be26605752f, type: 2}
   segmentStyleSettings: {fileID: 11400000, guid: f3507d694a3ad7447a2ef120875fc145, type: 2}
+  wallsMaterials:
+  - {fileID: 2100000, guid: 09e1a3056c5273642be64d1ade4caee2, type: 2}
+  - {fileID: 2100000, guid: 51bbec7390814b54b8db2b9bac41fa14, type: 2}
+  - {fileID: 2100000, guid: fa078e4893ab754448e4200a586230c8, type: 2}
+  - {fileID: 2100000, guid: 749f740afe0c42641bd2ce6c2b8de6fc, type: 2}
+  - {fileID: 2100000, guid: ba814adaa8cdfcf4393f281faea04bdf, type: 2}
+  - {fileID: 2100000, guid: b9fb16cfae3b76147882ae11c5752b3b, type: 2}
+  roofMaterials:
+  - {fileID: 2100000, guid: 46fd7993d067a2b45b54cd6851a24313, type: 2}
+  - {fileID: 2100000, guid: 46fd7993d067a2b45b54cd6851a24313, type: 2}
+  - {fileID: 2100000, guid: 46fd7993d067a2b45b54cd6851a24313, type: 2}
+  - {fileID: 2100000, guid: 46fd7993d067a2b45b54cd6851a24313, type: 2}
+  - {fileID: 2100000, guid: 46fd7993d067a2b45b54cd6851a24313, type: 2}
+  - {fileID: 2100000, guid: 46fd7993d067a2b45b54cd6851a24313, type: 2}

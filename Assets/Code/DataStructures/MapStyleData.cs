@@ -51,6 +51,34 @@ namespace GUTGuide.DataStructures
         /// The default style applied to generated <see cref="Segment"/> <see cref="GameObject"/>s
         /// </summary>
         [SerializeField] private SegmentStyleSettings segmentStyleSettings;
+        /// <summary>
+        /// Materials to apply to buildings walls
+        /// </summary>
+        [SerializeField] private Material[] wallsMaterials;
+        /// <summary>
+        /// Materials to apply to roofs
+        /// </summary>
+        [SerializeField] private Material[] roofMaterials;
+
+        private void OnValidate()
+        {
+            if (wallsMaterials.Length != roofMaterials.Length)
+            {
+                Debug.LogError(
+                    "There must be the same number of materials for walls and roofs, as we will try to match " +
+                    "given Walls to given Roofs (e.g. if a building is given building wall material 2, then it will " +
+                    "also be given building roof material 2)");
+            }
+        }
+
+        /// <summary>
+        /// Materials to apply to roofs
+        /// </summary>
+        public Material[] RoofMaterials => roofMaterials;
+        /// <summary>
+        /// Materials to apply to buildings walls
+        /// </summary>
+        public Material[] WallsMaterials => wallsMaterials;
 
         /// <summary>
         /// Generate <see cref="GameObjectOptions"/> from the style data provided in this object

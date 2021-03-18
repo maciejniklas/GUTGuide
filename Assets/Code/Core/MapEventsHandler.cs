@@ -43,6 +43,20 @@ namespace GUTGuide.Core
         /// <summary>
         /// Handle <see cref="SegmentEvents.DidCreate"/> event to edit created segments game objects
         /// </summary>
+        public void OnDidCreateExtrudedCallback(DidCreateExtrudedStructureArgs arguments)
+        {
+            var buildingRenderer = arguments.GameObject.GetComponent<Renderer>();
+            var isGutBuilding = GutBuildingData.CheckIsGutBuilding(arguments.MapFeature.Metadata.PlaceId);
+            var styleType = isGutBuilding ? MapStyleData.Type.Gut : MapStyleData.Type.Default;
+            var materials =
+                MapStyleProvider.Instance.GetBuildingMaterials((int) (Random.value * int.MaxValue), styleType);
+
+            buildingRenderer.sharedMaterials = materials;
+        }
+
+        /// <summary>
+        /// Handle <see cref="SegmentEvents.DidCreate"/> event to edit created segments game objects
+        /// </summary>
         public void OnDidCreateSegmentCallback(DidCreateSegmentArgs arguments)
         {
             // Obtain parameters necessary for the position set
