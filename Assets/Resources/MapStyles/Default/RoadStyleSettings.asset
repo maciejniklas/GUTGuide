@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: -584579194, guid: 322c8874b7f0401c8c1211fe39d44d90, type: 3}
   m_Name: RoadStyleSettings
   m_EditorClassIdentifier: 
-  Material: {fileID: 2100000, guid: 0970e2b9e4c9e404ca80c1dced327112, type: 2}
+  Material: {fileID: 2100000, guid: b45a5f70595a6e1449463de43807914d, type: 2}
   IntersectionMaterial: {fileID: 0}
   IntersectionArmLength: 3.5
   IntersectionJoinLength: 7

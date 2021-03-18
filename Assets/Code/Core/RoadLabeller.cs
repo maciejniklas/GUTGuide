@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Google.Maps;
-using Google.Maps.Event;
+﻿using System.Collections.Generic;
 using GUTGuide.UI;
 using UnityEngine;
 
@@ -29,15 +26,6 @@ namespace GUTGuide.Core
         /// </summary>
         private MixedMapLoader _mixedMapLoader;
         /// <summary>
-        /// Reference to the <see cref="MapsService"/>
-        /// </summary>
-        private MapsService _mapsService;
-        /// <summary>
-        /// Reference to the callback from Terrain field of <see cref="DidCreateTerrainArgs"/> event arguments that
-        /// returns terrain height at given point
-        /// </summary>
-        private Func<Vector3, float> _getTerrainHeightCallback;
-        /// <summary>
         /// Is the road labeller initialized?
         /// </summary>
         private bool _isInitialized;
@@ -47,7 +35,6 @@ namespace GUTGuide.Core
             var mainCamera = Camera.main;
             
             _roadLabelsByKey = new Dictionary<string, RoadLabel>();
-            _mapsService = FindObjectOfType<MapsService>();
             
             if (mainCamera is null) return;
             
@@ -65,10 +52,6 @@ namespace GUTGuide.Core
             if (_mapOriginUpdater != null)
                 _mapOriginUpdater.onMapOriginUpdate.RemoveListener(OnMapOriginUpdateCallback);
             if (_mixedMapLoader != null) _mixedMapLoader.onMapRegionUnload.RemoveListener(OnRegionUnloadedCallback);
-            if (_mapsService != null)
-                _mapsService.Events.SegmentEvents.DidCreate.RemoveListener(OnDidCreateSegmentCallback);
-            if (_mapsService != null)
-                _mapsService.Events.TerrainEvents.DidCreate.RemoveListener(OnDidCreateTerrainCallback);
             Clear();
         }
 
@@ -76,8 +59,6 @@ namespace GUTGuide.Core
         {
             _mapOriginUpdater.onMapOriginUpdate.AddListener(OnMapOriginUpdateCallback);
             _mixedMapLoader.onMapRegionUnload.AddListener(OnRegionUnloadedCallback);
-            _mapsService.Events.SegmentEvents.DidCreate.AddListener(OnDidCreateSegmentCallback);
-            _mapsService.Events.TerrainEvents.DidCreate.AddListener(OnDidCreateTerrainCallback);
             
             if (_isInitialized) _mixedMapLoader.Reload();
         }
@@ -102,7 +83,7 @@ namespace GUTGuide.Core
         /// <param name="roadKey">Id of the road</param>
         /// <param name="roadName">Name of the road that will be visible in the scene</param>
         /// <returns></returns>
-        private RoadLabel Create(Vector3 initialPosition, string roadKey, string roadName)
+        public RoadLabel Create(Vector3 initialPosition, string roadKey, string roadName)
         {
             // If the name is empty do not create a new label
             if (string.IsNullOrWhiteSpace(roadName)) return null;
@@ -156,31 +137,6 @@ namespace GUTGuide.Core
                 Destroy(_roadLabelsByKey[key].gameObject);
                 _roadLabelsByKey.Remove(key);
             }
-        }
-
-        private void OnDidCreateSegmentCallback(DidCreateSegmentArgs arguments)
-        {
-            // Obtain parameters necessary for the position set
-            var gameObjectPosition = arguments.GameObject.transform.position;
-            var terrainHeight = _getTerrainHeightCallback(gameObjectPosition);
-            
-            // Construct exact road label position in 3D space
-            var roadLabelPosition = new Vector3(gameObjectPosition.x, terrainHeight, gameObjectPosition.z);
-            
-            // Generate road label
-            var roadLabel = Create(roadLabelPosition, arguments.MapFeature.Metadata.PlaceId,
-                arguments.MapFeature.Metadata.Name);
-
-            if (roadLabel == null) return;
-            
-            // Set its road lint to position the label
-            roadLabel.SetLine(arguments.GameObject.transform.position, arguments.MapFeature.Shape.Lines[0]);
-        }
-
-        private void OnDidCreateTerrainCallback(DidCreateTerrainArgs arguments)
-        {
-            // Get the method that enables to obtain terrain height at the point
-            _getTerrainHeightCallback = arguments.Terrain.SampleHeight;
         }
     }
 }

@@ -16,6 +16,15 @@ namespace GUTGuide.Core
         /// Default map objects styling
         /// </summary>
         private GameObjectOptions _mapDefaultStyle;
+        /// <summary>
+        /// Reference to the component responsible for creating road labels
+        /// </summary>
+        private RoadLabeller _roadLabeller;
+
+        private void Awake()
+        {
+            _roadLabeller = FindObjectOfType<RoadLabeller>();
+        }
 
         private void Start()
         {
@@ -29,6 +38,30 @@ namespace GUTGuide.Core
         public void HandleAlphaMapsNeedPaint(AlphaMapsNeedPaintArgs arguments)
         {
             arguments.PaintingCoroutine = PaintControlTexture(arguments);
+        }
+
+        /// <summary>
+        /// Handle <see cref="SegmentEvents.DidCreate"/> event to edit created segments game objects
+        /// </summary>
+        public void OnDidCreateSegmentCallback(DidCreateSegmentArgs arguments)
+        {
+            // Obtain parameters necessary for the position set
+            var gameObjectPosition = arguments.GameObject.transform.position;
+
+            // Move up the road to avoid z-clipping with regions
+            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up;
+            
+            // Construct exact road label position in 3D space
+            var roadLabelPosition = new Vector3(gameObjectPosition.x, 0, gameObjectPosition.z);
+            
+            // Generate road label
+            var roadLabel = _roadLabeller.Create(roadLabelPosition, arguments.MapFeature.Metadata.PlaceId,
+                arguments.MapFeature.Metadata.Name);
+
+            if (roadLabel == null) return;
+            
+            // Set its road lint to position the label
+            roadLabel.SetLine(arguments.GameObject.transform.position, arguments.MapFeature.Shape.Lines[0]);
         }
 
         /// <summary>
