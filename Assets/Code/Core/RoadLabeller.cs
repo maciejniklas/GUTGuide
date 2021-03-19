@@ -83,7 +83,7 @@ namespace GUTGuide.Core
         /// <param name="roadKey">Id of the road</param>
         /// <param name="roadName">Name of the road that will be visible in the scene</param>
         /// <returns></returns>
-        public RoadLabel Create(Vector3 initialPosition, string roadKey, string roadName)
+        public RoadLabel Create(Vector3 initialPosition, string roadName)
         {
             // If the name is empty do not create a new label
             if (string.IsNullOrWhiteSpace(roadName)) return null;
@@ -91,16 +91,16 @@ namespace GUTGuide.Core
             RoadLabel roadLabel;
 
             // Check if the label already exists in the road labels pool or create a new one if not
-            if (_roadLabelsByKey.ContainsKey(roadKey))
+            if (_roadLabelsByKey.ContainsKey(roadName))
             {
-                roadLabel = _roadLabelsByKey[roadKey];
+                roadLabel = _roadLabelsByKey[roadName];
             }
             else
             {
                 roadLabel = Instantiate(roadLabelPrefab, transform);
                 roadLabel.SetText(roadName);
                 
-                _roadLabelsByKey.Add(roadKey, roadLabel);
+                _roadLabelsByKey.Add(roadName, roadLabel);
             }
 
             // Set the position of the road label

@@ -69,8 +69,7 @@ namespace GUTGuide.Core
             var roadLabelPosition = new Vector3(gameObjectPosition.x, 0, gameObjectPosition.z);
             
             // Generate road label
-            var roadLabel = _roadLabeller.Create(roadLabelPosition, arguments.MapFeature.Metadata.PlaceId,
-                arguments.MapFeature.Metadata.Name);
+            var roadLabel = _roadLabeller.Create(roadLabelPosition, arguments.MapFeature.Metadata.Name);
 
             if (roadLabel == null) return;
             
