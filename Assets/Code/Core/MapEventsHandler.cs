@@ -49,11 +49,11 @@ namespace GUTGuide.Core
             var gameObjectPosition = arguments.GameObject.transform.position;
 
             // Move up the road to avoid z-clipping with regions
-            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up;
+            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up * 0.1f;
         }
 
         /// <summary>
-        /// Handle <see cref="SegmentEvents.DidCreate"/> event to edit created segments game objects
+        /// Handle <see cref="ExtrudedStructureEvents.DidCreate"/> event to edit created segments game objects
         /// </summary>
         public void OnDidCreateExtrudedCallback(DidCreateExtrudedStructureArgs arguments)
         {
@@ -75,7 +75,7 @@ namespace GUTGuide.Core
             var gameObjectPosition = arguments.GameObject.transform.position;
 
             // Move up the road to avoid z-clipping with regions
-            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up;
+            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up * 0.1f;
         }
 
         /// <summary>
@@ -87,7 +87,8 @@ namespace GUTGuide.Core
             var gameObjectPosition = arguments.GameObject.transform.position;
 
             // Move up the road to avoid z-clipping with regions
-            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up * 2;
+            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up * 0.3f;
+            arguments.GameObject.transform.GetChild(0).localPosition = Vector3.down * 0.1f;
             
             // Construct exact road label position in 3D space
             var roadLabelPosition = new Vector3(gameObjectPosition.x, 0, gameObjectPosition.z);

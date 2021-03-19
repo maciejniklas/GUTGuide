@@ -18,5 +18,5 @@ MonoBehaviour:
   IntersectionJoinLength: 7
   MaxIntersectionArmDistance: 20
   Width: 7
-  BorderMaterial: {fileID: 0}
+  BorderMaterial: {fileID: 2100000, guid: 87cb26c063e7ba5448afbd49b322ce38, type: 2}
   BorderWidth: 1
