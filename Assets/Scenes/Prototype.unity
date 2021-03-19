@@ -781,6 +781,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 823676105}
     - target: {fileID: 8441575212386533423, guid: 76bfb636346c2d144a93a379110e7723, type: 3}
+      propertyPath: _Events._AreaWaterEvents.DidCreate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 823676105}
+    - target: {fileID: 8441575212386533423, guid: 76bfb636346c2d144a93a379110e7723, type: 3}
+      propertyPath: _Events._LineWaterEvents.DidCreate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 823676105}
+    - target: {fileID: 8441575212386533423, guid: 76bfb636346c2d144a93a379110e7723, type: 3}
       propertyPath: _Events._AreaWaterEvents.WillCreate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 823676105}

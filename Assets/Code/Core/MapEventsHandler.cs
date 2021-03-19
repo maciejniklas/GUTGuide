@@ -41,6 +41,18 @@ namespace GUTGuide.Core
         }
 
         /// <summary>
+        /// Handle <see cref="AreaWaterEvents.DidCreate"/> event.
+        /// </summary>
+        public void HandleDidCreateAreaWater(DidCreateAreaWaterArgs arguments)
+        {
+            // Obtain parameters necessary for the position set
+            var gameObjectPosition = arguments.GameObject.transform.position;
+
+            // Move up the road to avoid z-clipping with regions
+            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up;
+        }
+
+        /// <summary>
         /// Handle <see cref="SegmentEvents.DidCreate"/> event to edit created segments game objects
         /// </summary>
         public void OnDidCreateExtrudedCallback(DidCreateExtrudedStructureArgs arguments)
@@ -55,6 +67,18 @@ namespace GUTGuide.Core
         }
 
         /// <summary>
+        /// Handle <see cref="LineWaterEvents.DidCreate"/> event
+        /// </summary>
+        public void HandleDidCreateLineWater(DidCreateLineWaterArgs arguments)
+        {
+            // Obtain parameters necessary for the position set
+            var gameObjectPosition = arguments.GameObject.transform.position;
+
+            // Move up the road to avoid z-clipping with regions
+            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up;
+        }
+
+        /// <summary>
         /// Handle <see cref="SegmentEvents.DidCreate"/> event to edit created segments game objects
         /// </summary>
         public void OnDidCreateSegmentCallback(DidCreateSegmentArgs arguments)
@@ -63,7 +87,7 @@ namespace GUTGuide.Core
             var gameObjectPosition = arguments.GameObject.transform.position;
 
             // Move up the road to avoid z-clipping with regions
-            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up;
+            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up * 2;
             
             // Construct exact road label position in 3D space
             var roadLabelPosition = new Vector3(gameObjectPosition.x, 0, gameObjectPosition.z);

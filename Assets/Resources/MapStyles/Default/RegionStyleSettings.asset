@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 815937727, guid: 322c8874b7f0401c8c1211fe39d44d90, type: 3}
   m_Name: RegionStyleSettings
   m_EditorClassIdentifier: 
-  FillMaterial: {fileID: 2100000, guid: 2511841dbcacb3444bc456b836d4d42a, type: 2}
+  FillMaterial: {fileID: 2100000, guid: 44a007f678a6fba42a11a2a0b97c6d89, type: 2}
   Outline: {fileID: 0}
