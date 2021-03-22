@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Google.Maps.Feature;
 using Google.Maps.Feature.Shape;
 using GUTGuide.Patterns;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Code.Styling
 {
@@ -13,21 +15,56 @@ namespace Code.Styling
     {
         [Header("General settings")] 
         
-        [Tooltip("Default thickness of created extrusions")] [SerializeField] [Min(0.1f)]
-        private float defaultHeight = 1;
+        [Tooltip("Default thickness of created extrusions")] 
+        [SerializeField] 
+        [Min(0.1f)]
+        private float defaultThickness = 1;
+        
+        [Tooltip("Default height applied to Maps SDK for Unity generated buildings that do not have stored height in " +
+                 "formation. The chosen value of 10f matches the default value used inside the Maps SDK for " +
+                 "buildings without stored heights")]
+        [SerializeField] 
+        private float defaultBuildingHeight = 10;
 
         [Header("Naming")] 
         
-        [Tooltip("Name given to GameObjects created as building base decorations")] [SerializeField]
+        [Tooltip("Name given to GameObjects created as building base decorations")] 
+        [SerializeField]
         private string borderName = "Border";
 
-        [Tooltip("Name given to GameObjects created as parapets")] [SerializeField]
+        [Tooltip("Name given to GameObjects created as parapets")] 
+        [SerializeField]
         private string parapetName = "Parapet";
 
         /// <summary>
         /// Two dimensional cross-sections we will use to form flat extrusions around a given shape
         /// </summary>
         private Vector2[] BorderShape => new[] {Vector2.right, Vector2.zero};
+
+        /// <summary>
+        /// Two dimensional cross-sections that will be used to form the parapets
+        /// </summary>
+        private Vector2[][] ParapetShapes => new[]
+        {
+            // A square parapet running along the outer edge of a roof, not overhanging exterior walls.
+            ConvertFloatsToVector2Array(0f, 0f, 0f, 1f, -1f, 1f, -1f, 0f),
+
+            // A square parapet running along the outer edge of a roof, slightly overlapping the roof, and
+            // overhanging exterior walls.
+            ConvertFloatsToVector2Array(-0.5f, 0f, 1f, 0f, 1f, 1f, -0.5f, 1f, -0.5f, 0f),
+
+            // A stepped parapet that overhangs exterior walls, with the steps facing down towards the
+            // ground.
+            ConvertFloatsToVector2Array(-1f, 0f, 0.5f, 0f, 0.5f, 0.5f, 1f, 0.5f, 1f, 1.0f, -1f, 1f, -1f, 0f),
+
+            // A stepped parapet that does not overhang exterior walls, with the steps facing upwards
+            // towards the sky.
+            ConvertFloatsToVector2Array(0f, 0f, 0f, 1f, -0.5f, 1f, -0.5f, 0.5f, -1f, 0.5f, -1f, 0f),
+
+            // A bevelled parapet that overhangs exterior walls, similar to the steps facing upwards but
+            // with a slope in place of the middle step.
+            ConvertFloatsToVector2Array(0f, -0.5f, 1f, -0.5f, 1f, 0.5f, 0.5f, 1f, 0f, 1f, 0f, -0.5f)
+        };
 
         /// <summary>
         /// Adds a extruded border around the base of a given building
@@ -45,7 +82,7 @@ namespace Code.Styling
         {
             // Create list to store all created borders
             var extrudedBorders = new List<GameObject>();
-            var resultThickness = thickness ?? defaultHeight;
+            var resultThickness = thickness ?? defaultThickness;
             var resultYOffset = yOffset ?? 0;
 
             // Use general-purpose building-extrusion function to add border around building
@@ -57,6 +94,41 @@ namespace Code.Styling
             }
 
             return extrudedBorders;
+        }
+
+        /// <summary>
+        /// Adds a parapet of a randomly chosen cross-section to the given building
+        /// </summary>
+        /// <param name="buildingGameObject">The Maps SDK for Unity created <see cref="GameObject"/> containing this
+        /// building</param>
+        /// <param name="buildingShape">The Maps SDK for Unity <see cref="MapFeature"/> data defining this building's
+        /// shape and height</param>
+        /// <param name="parapetMaterial">The <see cref="Material"/> to apply to the parapet once it is created</param>
+        /// <param name="parapetType">Optional index of parapet to cross-section to use. Will use a randomly chosen
+        /// cross-section if no index given, or if given index is invalid</param>
+        /// <returns></returns>
+        public List<GameObject> AddBuildingParapet(GameObject buildingGameObject, ExtrudedArea buildingShape,
+            Material parapetMaterial, int? parapetType = null)
+        {
+            // Create list to store all created parapets
+            var extrudedParapets = new List<GameObject>();
+
+            foreach (var extrusion in buildingShape.Extrusions)
+            {
+                var height = extrusion.MaxZ > 0.1f
+                    ? extrusion.MaxZ
+                    : defaultBuildingHeight;
+
+                var resultParapetType = parapetType >= 0 && parapetType.Value < ParapetShapes.Length
+                    ? parapetType.Value
+                    : Random.Range(0, ParapetShapes.Length);
+
+                var extrusions = AddExtrusionToBuilding(buildingGameObject, parapetMaterial,
+                    extrusion, ParapetShapes[resultParapetType], height, defaultThickness, true);
+                extrudedParapets.AddRange(extrusions);
+            }
+
+            return extrudedParapets;
         }
         
         /// <summary>
@@ -105,6 +177,31 @@ namespace Code.Styling
             }
 
             return extrusionGameObjects;
+        }
+
+        /// <summary>
+        /// Convert a given array of floats into an array of <see cref="Vector2"/>s
+        /// </summary>
+        /// <param name="numbers">An array of floats to be converted to Vector2[]</param>
+        /// <returns>An array of Vector2 made from given floats</returns>
+        /// <exception cref="ArgumentException">Thrown when the length of given parameters are not even</exception>
+        private Vector2[] ConvertFloatsToVector2Array(params float[] numbers)
+        {
+            // Confirm an even number of floats have been given
+            if (numbers.Length % 2 != 0)
+            {
+                throw new ArgumentException("Arguments must be provided in pairs", nameof(numbers));
+            }
+
+            //  Return each pair of floats as one element of an array of Vector2's
+            var vectors = new Vector2[numbers.Length / 2];
+
+            for (var index = 0; index < numbers.Length; index += 2)
+            {
+                vectors[index / 2] = new Vector2(numbers[index], numbers[index + 1]);
+            }
+
+            return vectors;
         }
         
         /// <summary>
@@ -191,6 +288,19 @@ namespace Code.Styling
             }
 
             return paddedEdgeSequences;
+        }
+
+        /// <summary>A version of mod that works for negative values.</summary>
+        /// <remarks>
+        /// This function ensures that returned modulated value will always be positive for values
+        /// greater than the negative of the modulus argument.
+        /// </remarks>
+        /// <param name="modulo">The modulus argument.</param>
+        /// <param name="value">The value to modulate.</param>
+        /// <returns>A range safe version of value % mod.</returns>
+        private int SafeModulo(int modulo, int value)
+        {
+            return (value + modulo) % modulo;
         }
         
         /// <summary>
@@ -310,19 +420,6 @@ namespace Code.Styling
             }
 
             return true;
-        }
-
-        /// <summary>A version of mod that works for negative values.</summary>
-        /// <remarks>
-        /// This function ensures that returned modulated value will always be positive for values
-        /// greater than the negative of the modulus argument.
-        /// </remarks>
-        /// <param name="modulo">The modulus argument.</param>
-        /// <param name="value">The value to modulate.</param>
-        /// <returns>A range safe version of value % mod.</returns>
-        private int SafeModulo(int modulo, int value)
-        {
-            return (value + modulo) % modulo;
         }
     }
 }

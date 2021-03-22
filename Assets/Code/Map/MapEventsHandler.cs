@@ -68,6 +68,8 @@ namespace Code.Map
 
             ExtrusionModifier.Instance.AddBuildingBorder(arguments.GameObject, arguments.MapFeature.Shape,
                 MapStyleProvider.Instance.BuildingBorderMaterial, yOffset: 0.5f);
+            ExtrusionModifier.Instance.AddBuildingParapet(arguments.GameObject, arguments.MapFeature.Shape,
+                MapStyleProvider.Instance.GetBuildingParapetMaterial(styleType));
         }
 
         /// <summary>

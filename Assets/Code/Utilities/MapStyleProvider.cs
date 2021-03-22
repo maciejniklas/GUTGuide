@@ -46,6 +46,12 @@ namespace GUTGuide.Utilities
         /// </summary>
         public Material TerrainControlTexture => terrainControlTexture;
 
+        /// <summary>
+        /// Get building nine-slicing material
+        /// </summary>
+        /// <param name="index">Index number of available building style</param>
+        /// <param name="styleType"><see cref="MapStyleData.Type"/> of map style</param>
+        /// <returns>Nine-slicing building material</returns>
         public Material[] GetBuildingMaterials(int index, MapStyleData.Type styleType)
         {
             var styleData = mapStyleData.FirstOrDefault(element => element.StyleType == styleType);
@@ -56,6 +62,17 @@ namespace GUTGuide.Utilities
             var materials = new[] {styleData.WallsMaterials[validIndex], styleData.RoofMaterials[validIndex]};
 
             return materials;
+        }
+
+        /// <summary>
+        /// Get parapet material of selected style
+        /// </summary>
+        /// <param name="type"><see cref="MapStyleData.Type"/> of map style</param>
+        /// <returns></returns>
+        public Material GetBuildingParapetMaterial(MapStyleData.Type type)
+        {
+            var styleData = mapStyleData.FirstOrDefault(element => element.StyleType == type);
+            return styleData == null ? null : styleData.ParapetMaterial;
         }
 
         /// <summary>

@@ -59,6 +59,10 @@ namespace GUTGuide.DataStructures
         /// Materials to apply to roofs
         /// </summary>
         [SerializeField] private Material[] roofMaterials;
+        /// <summary>
+        /// The <see cref="Material"/> to apply to the parapet once it is created
+        /// </summary>
+        [SerializeField] private Material parapetMaterial;
 
         private void OnValidate()
         {
@@ -71,6 +75,10 @@ namespace GUTGuide.DataStructures
             }
         }
 
+        /// <summary>
+        /// The <see cref="Material"/> to apply to the parapet once it is created
+        /// </summary>
+        public Material ParapetMaterial => parapetMaterial;
         /// <summary>
         /// Materials to apply to roofs
         /// </summary>

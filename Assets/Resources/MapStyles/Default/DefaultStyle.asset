@@ -33,3 +33,4 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7c437871eaa21924d871ca1f9c36afcf, type: 2}
   - {fileID: 2100000, guid: 1a713f81e6db5634fb6bd94478800e8d, type: 2}
   - {fileID: 2100000, guid: 141725aadfbb3214da173772d6c9de39, type: 2}
+  parapetMaterial: {fileID: 2100000, guid: 8fcb3fe5674ebd8498a8bc6164b0f049, type: 2}
