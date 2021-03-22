@@ -19,6 +19,8 @@ namespace GUTGuide.Utilities
         
         [Tooltip("Set of available map styles")]
         [SerializeField] private MapStyleData[] mapStyleData;
+        [Tooltip("The material to apply to the extrusion once it is created")]
+        [SerializeField] private Material buildingBorderMaterial;
 
         [Header("Terrain settings")]
         
@@ -36,7 +38,11 @@ namespace GUTGuide.Utilities
         [SerializeField] private TerrainLayer[] terrainLayers;
 
         /// <summary>
-        /// Material used to paint the control texture from the feature mask
+        /// The <see cref="Material"/> to apply to the extrusion once it is created
+        /// </summary>
+        public Material BuildingBorderMaterial => buildingBorderMaterial;
+        /// <summary>
+        /// <see cref="Material"/> used to paint the control texture from the feature mask
         /// </summary>
         public Material TerrainControlTexture => terrainControlTexture;
 

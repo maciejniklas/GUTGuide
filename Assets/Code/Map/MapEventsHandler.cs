@@ -1,11 +1,12 @@
 ﻿using System.Collections;
+using Code.Styling;
 using Google.Maps;
 using Google.Maps.Event;
 using GUTGuide.DataStructures;
 using GUTGuide.Utilities;
 using UnityEngine;
 
-namespace GUTGuide.Core
+namespace Code.Map
 {
     /// <summary>
     /// The central component for map generated events handling
@@ -64,6 +65,9 @@ namespace GUTGuide.Core
                 MapStyleProvider.Instance.GetBuildingMaterials((int) (Random.value * int.MaxValue), styleType);
 
             buildingRenderer.sharedMaterials = materials;
+
+            ExtrusionModifier.Instance.AddBuildingBorder(arguments.GameObject, arguments.MapFeature.Shape,
+                MapStyleProvider.Instance.BuildingBorderMaterial, yOffset: 0.5f);
         }
 
         /// <summary>

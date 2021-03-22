@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Google.Maps;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GUTGuide.Core
+namespace Code.Map
 {
     /// <summary>
     /// Updates the <see cref="MapsService"/> floating origin whenever the main <see cref="Camera"/> moves far enough

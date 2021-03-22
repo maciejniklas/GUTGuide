@@ -2,7 +2,7 @@
 using GUTGuide.UI;
 using UnityEngine;
 
-namespace GUTGuide.Core
+namespace Code.Map
 {
     /// <summary>
     /// Component for adding labels to show the names of the roads
@@ -80,7 +80,6 @@ namespace GUTGuide.Core
         /// Generate new instance of the road label
         /// </summary>
         /// <param name="initialPosition">Position of the label in 3D space</param>
-        /// <param name="roadKey">Id of the road</param>
         /// <param name="roadName">Name of the road that will be visible in the scene</param>
         /// <returns></returns>
         public RoadLabel Create(Vector3 initialPosition, string roadName)
