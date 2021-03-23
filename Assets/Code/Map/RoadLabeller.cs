@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GUTGuide.UI;
+using GUTGuide.UI.Components;
 using UnityEngine;
 
 namespace Code.Map
