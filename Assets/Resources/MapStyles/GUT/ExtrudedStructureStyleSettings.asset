@@ -16,5 +16,5 @@ MonoBehaviour:
   ApplyFixedHeight: 0
   FixedHeight: 10
   DefaultBuildingHeight: 10
-  RoofMaterial: {fileID: 2100000, guid: 46fd7993d067a2b45b54cd6851a24313, type: 2}
-  WallMaterial: {fileID: 2100000, guid: 46fd7993d067a2b45b54cd6851a24313, type: 2}
+  RoofMaterial: {fileID: 2100000, guid: b3feb6cbd7901df46bf13b2b35acd3a2, type: 2}
+  WallMaterial: {fileID: 2100000, guid: 09e1a3056c5273642be64d1ade4caee2, type: 2}

@@ -1,5 +1,4 @@
-﻿using System;
-using Code.Styling;
+﻿using Code.Styling;
 using Google.Maps;
 using Google.Maps.Coord;
 using Google.Maps.Loading;
@@ -8,7 +7,7 @@ using GUTGuide.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GUTGuide.Core
+namespace Code.Map
 {
     /// <summary>
     /// Responsible for map objects loading and unloading

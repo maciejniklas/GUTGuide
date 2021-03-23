@@ -1,11 +1,12 @@
 ﻿using System.Collections;
+using Code.Styling;
 using Google.Maps;
 using Google.Maps.Event;
 using GUTGuide.DataStructures;
 using GUTGuide.Utilities;
 using UnityEngine;
 
-namespace GUTGuide.Core
+namespace Code.Map
 {
     /// <summary>
     /// The central component for map generated events handling
@@ -16,6 +17,15 @@ namespace GUTGuide.Core
         /// Default map objects styling
         /// </summary>
         private GameObjectOptions _mapDefaultStyle;
+        /// <summary>
+        /// Reference to the component responsible for creating road labels
+        /// </summary>
+        private RoadLabeller _roadLabeller;
+
+        private void Awake()
+        {
+            _roadLabeller = FindObjectOfType<RoadLabeller>();
+        }
 
         private void Start()
         {
@@ -29,6 +39,73 @@ namespace GUTGuide.Core
         public void HandleAlphaMapsNeedPaint(AlphaMapsNeedPaintArgs arguments)
         {
             arguments.PaintingCoroutine = PaintControlTexture(arguments);
+        }
+
+        /// <summary>
+        /// Handle <see cref="AreaWaterEvents.DidCreate"/> event.
+        /// </summary>
+        public void HandleDidCreateAreaWater(DidCreateAreaWaterArgs arguments)
+        {
+            // Obtain parameters necessary for the position set
+            var gameObjectPosition = arguments.GameObject.transform.position;
+
+            // Move up the road to avoid z-clipping with regions
+            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up * 0.1f;
+        }
+
+        /// <summary>
+        /// Handle <see cref="ExtrudedStructureEvents.DidCreate"/> event to edit created segments game objects
+        /// </summary>
+        public void OnDidCreateExtrudedCallback(DidCreateExtrudedStructureArgs arguments)
+        {
+            var buildingRenderer = arguments.GameObject.GetComponent<Renderer>();
+            var isGutBuilding = GutBuildingData.CheckIsGutBuilding(arguments.MapFeature.Metadata.PlaceId);
+            var styleType = isGutBuilding ? MapStyleData.Type.Gut : MapStyleData.Type.Default;
+            var materials =
+                MapStyleProvider.Instance.GetBuildingMaterials((int) (Random.value * int.MaxValue), styleType);
+
+            buildingRenderer.sharedMaterials = materials;
+
+            ExtrusionModifier.Instance.AddBuildingBorder(arguments.GameObject, arguments.MapFeature.Shape,
+                MapStyleProvider.Instance.BuildingBorderMaterial, yOffset: 0.5f);
+            ExtrusionModifier.Instance.AddBuildingParapet(arguments.GameObject, arguments.MapFeature.Shape,
+                MapStyleProvider.Instance.GetBuildingParapetMaterial(styleType));
+        }
+
+        /// <summary>
+        /// Handle <see cref="LineWaterEvents.DidCreate"/> event
+        /// </summary>
+        public void HandleDidCreateLineWater(DidCreateLineWaterArgs arguments)
+        {
+            // Obtain parameters necessary for the position set
+            var gameObjectPosition = arguments.GameObject.transform.position;
+
+            // Move up the road to avoid z-clipping with regions
+            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up * 0.1f;
+        }
+
+        /// <summary>
+        /// Handle <see cref="SegmentEvents.DidCreate"/> event to edit created segments game objects
+        /// </summary>
+        public void OnDidCreateSegmentCallback(DidCreateSegmentArgs arguments)
+        {
+            // Obtain parameters necessary for the position set
+            var gameObjectPosition = arguments.GameObject.transform.position;
+
+            // Move up the road to avoid z-clipping with regions
+            arguments.GameObject.transform.position = gameObjectPosition + Vector3.up * 0.3f;
+            arguments.GameObject.transform.GetChild(0).localPosition = Vector3.down * 0.1f;
+            
+            // Construct exact road label position in 3D space
+            var roadLabelPosition = new Vector3(gameObjectPosition.x, 0, gameObjectPosition.z);
+            
+            // Generate road label
+            var roadLabel = _roadLabeller.Create(roadLabelPosition, arguments.MapFeature.Metadata.Name);
+
+            if (roadLabel == null) return;
+            
+            // Set its road lint to position the label
+            roadLabel.SetLine(arguments.GameObject.transform.position, arguments.MapFeature.Shape.Lines[0]);
         }
 
         /// <summary>

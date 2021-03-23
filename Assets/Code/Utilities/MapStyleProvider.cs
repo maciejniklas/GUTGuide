@@ -19,6 +19,8 @@ namespace GUTGuide.Utilities
         
         [Tooltip("Set of available map styles")]
         [SerializeField] private MapStyleData[] mapStyleData;
+        [Tooltip("The material to apply to the extrusion once it is created")]
+        [SerializeField] private Material buildingBorderMaterial;
 
         [Header("Terrain settings")]
         
@@ -36,9 +38,42 @@ namespace GUTGuide.Utilities
         [SerializeField] private TerrainLayer[] terrainLayers;
 
         /// <summary>
-        /// Material used to paint the control texture from the feature mask
+        /// The <see cref="Material"/> to apply to the extrusion once it is created
+        /// </summary>
+        public Material BuildingBorderMaterial => buildingBorderMaterial;
+        /// <summary>
+        /// <see cref="Material"/> used to paint the control texture from the feature mask
         /// </summary>
         public Material TerrainControlTexture => terrainControlTexture;
+
+        /// <summary>
+        /// Get building nine-slicing material
+        /// </summary>
+        /// <param name="index">Index number of available building style</param>
+        /// <param name="styleType"><see cref="MapStyleData.Type"/> of map style</param>
+        /// <returns>Nine-slicing building material</returns>
+        public Material[] GetBuildingMaterials(int index, MapStyleData.Type styleType)
+        {
+            var styleData = mapStyleData.FirstOrDefault(element => element.StyleType == styleType);
+
+            if (styleData == null) return new Material[0];
+            
+            var validIndex = index % styleData.WallsMaterials.Length;
+            var materials = new[] {styleData.WallsMaterials[validIndex], styleData.RoofMaterials[validIndex]};
+
+            return materials;
+        }
+
+        /// <summary>
+        /// Get parapet material of selected style
+        /// </summary>
+        /// <param name="type"><see cref="MapStyleData.Type"/> of map style</param>
+        /// <returns></returns>
+        public Material GetBuildingParapetMaterial(MapStyleData.Type type)
+        {
+            var styleData = mapStyleData.FirstOrDefault(element => element.StyleType == type);
+            return styleData == null ? null : styleData.ParapetMaterial;
+        }
 
         /// <summary>
         /// Receive map style
