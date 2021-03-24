@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e814e6f68296400b8ee82d69434d35d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  searchBuildingInput: {fileID: 2223025757491705563}
+  buildingSearchInput: {fileID: 2223025757491705563}
   searchBuildingPanelContentTransform: {fileID: 4189798737426654390}
   gutBuildingCardPrefab: {fileID: 3642741594281803537, guid: 6ec8cfbb165672e429352b41d2111fde, type: 3}
 --- !u!114 &5016017112163976530
@@ -420,6 +420,14 @@ PrefabInstance:
     - target: {fileID: 2888231227199960876, guid: 3a9723a4be2444f408ebcba453f43446, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888231227199960876, guid: 3a9723a4be2444f408ebcba453f43446, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888231227341983307, guid: 3a9723a4be2444f408ebcba453f43446, type: 3}
+      propertyPath: m_Size
+      value: 0.99999624
       objectReference: {fileID: 0}
     - target: {fileID: 2888231227341983307, guid: 3a9723a4be2444f408ebcba453f43446, type: 3}
       propertyPath: m_Value
