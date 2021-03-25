@@ -27,8 +27,10 @@ namespace Code.Map
         [Tooltip("Unload unused parts of the map when the camera position has moved this far")]
         [SerializeField] private float unloadDistance = 100f;
 
-        [Header("Buildings squashing settings")]
+        [Header("Buildings squashing settings")] 
         
+        [Tooltip("Target transform to which buildings will be computing squash scale")]
+        [SerializeField] private Transform targetTransform;
         [Tooltip("Distance from the target where buildings start squashing")]
         [SerializeField] [Range(10, 200)] private float minimalSquashDistance = 50;
         [Tooltip("Distance from the target where buildings stop squashing")]
@@ -162,7 +164,7 @@ namespace Code.Map
         private void AddSquasher(GameObject buildingObject)
         {
             var squasher = buildingObject.AddComponent<Squasher>();
-            squasher.Initialize(_mainCamera.transform, minimalSquashDistance, maximalSquashDistance,
+            squasher.Initialize(targetTransform, minimalSquashDistance, maximalSquashDistance,
                 maximalSquashScale);
         }
     }

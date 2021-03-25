@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Code.Styling
 {
@@ -24,17 +25,24 @@ namespace Code.Styling
         /// </summary>
         private float _maxSquashScale;
 
+        private void Start()
+        {
+            // Initialize scale of building squash with respect to the target transform if it is in its neighborhood
+            var distance = Vector3.Distance(_target.position, transform.position);
+
+            if (distance <= _nearDistance)
+            {
+                ScaleMesh(distance);
+            }
+        }
+
         private void Update()
         {
             var distance = Vector3.Distance(_target.position, transform.position);
 
             if (!(distance >= _nearDistance) || !(distance <= _farDistance)) return;
             
-            var normalizedDistance = (distance - _nearDistance) / (_farDistance - _nearDistance);
-            var clampedNormalizedDistance = Mathf.Clamp01(normalizedDistance);
-            var scale = Mathf.Lerp(_maxSquashScale, 1, clampedNormalizedDistance);
-
-            transform.localScale = new Vector3(1, scale, 1);
+            ScaleMesh(distance);
         }
 
         /// <summary>
@@ -50,6 +58,19 @@ namespace Code.Styling
             _farDistance = farDistance;
             _nearDistance = nearDistance;
             _maxSquashScale = maxSquashScale;
+        }
+
+        /// <summary>
+        /// Scale building mesh with respect to the distance from the target transform
+        /// </summary>
+        /// <param name="distance">Distance to the target transform</param>
+        private void ScaleMesh(float distance)
+        {
+            var normalizedDistance = (distance - _nearDistance) / (_farDistance - _nearDistance);
+            var clampedNormalizedDistance = Mathf.Clamp01(normalizedDistance);
+            var scale = Mathf.Lerp(_maxSquashScale, 1, clampedNormalizedDistance);
+
+            transform.localScale = new Vector3(1, scale, 1);
         }
     }
 }

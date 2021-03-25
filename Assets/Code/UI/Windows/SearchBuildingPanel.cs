@@ -2,6 +2,7 @@
 using GUTGuide.DataStructures;
 using GUTGuide.UI.Components;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GUTGuide.UI.Windows
@@ -27,6 +28,15 @@ namespace GUTGuide.UI.Windows
         /// Local storage list of the <see cref="GutBuildingCard"/>
         /// </summary>
         private List<GutBuildingCard> _gutBuildingCards;
+
+        /// <summary>
+        /// The event called when this window is opening
+        /// </summary>
+        public UnityEvent onOpen;
+        /// <summary>
+        /// The event called when this window is closing
+        /// </summary>
+        public UnityEvent onClose;
         
         /// <summary>
         /// Hash code of the hide animation
@@ -62,7 +72,7 @@ namespace GUTGuide.UI.Windows
 
         private void OnDisable()
         {
-            buildingSearchInput.onEndEdit.RemoveAllListeners();
+            buildingSearchInput.onEndEdit.RemoveListener(OnSearchBuildingInputEndEditCallback);
         }
 
         private void OnEnable()
@@ -76,6 +86,8 @@ namespace GUTGuide.UI.Windows
         public void Hide()
         {
             _animator.SetTrigger(HideAnimationTrigger);
+            
+            onClose?.Invoke();
         }
 
         /// <summary>
@@ -85,6 +97,8 @@ namespace GUTGuide.UI.Windows
         {
             ClearSearchFilter();
             _animator.SetTrigger(ShowAnimationTrigger);
+            
+            onOpen?.Invoke();
         }
 
         /// <summary>
