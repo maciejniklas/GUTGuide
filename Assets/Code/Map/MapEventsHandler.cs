@@ -58,18 +58,27 @@ namespace Code.Map
         /// </summary>
         public void OnDidCreateExtrudedCallback(DidCreateExtrudedStructureArgs arguments)
         {
+            // Load the dependencies for specifying building style
             var buildingRenderer = arguments.GameObject.GetComponent<Renderer>();
             var isGutBuilding = GutBuildingData.CheckIsGutBuilding(arguments.MapFeature.Metadata.PlaceId);
             var styleType = isGutBuilding ? MapStyleData.Type.Gut : MapStyleData.Type.Default;
             var materials =
                 MapStyleProvider.Instance.GetBuildingMaterials((int) (Random.value * int.MaxValue), styleType);
 
+            // Set the building style
             buildingRenderer.sharedMaterials = materials;
 
+            // Add extrusion modifications
             ExtrusionModifier.Instance.AddBuildingBorder(arguments.GameObject, arguments.MapFeature.Shape,
                 MapStyleProvider.Instance.BuildingBorderMaterial, yOffset: 0.5f);
             ExtrusionModifier.Instance.AddBuildingParapet(arguments.GameObject, arguments.MapFeature.Shape,
                 MapStyleProvider.Instance.GetBuildingParapetMaterial(styleType));
+
+            if (!isGutBuilding) return;
+            
+            // Move GUT building to its controlling parent
+            var gutBuildingsParent = GutBuildingsParent.Instance.transform;
+            arguments.GameObject.transform.SetParent(gutBuildingsParent);
         }
 
         /// <summary>

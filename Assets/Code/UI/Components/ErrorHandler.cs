@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using Google.Maps;
 using Google.Maps.Event;
 using GUTGuide.Patterns;
 using UnityEngine;
@@ -9,11 +11,14 @@ namespace GUTGuide.UI.Components
     /// <summary>
     /// Error handler with the possibility to expose it's in the notification bar
     /// </summary>
+    [RequireComponent(typeof(Button))]
     [RequireComponent(typeof(Animator))]
     public class ErrorHandler : PersistentSingleton<ErrorHandler>
     {
         [Tooltip("Reference to text message object of the popup message window")]
         [SerializeField] private Text errorText;
+        [Tooltip("Time in seconds in which the custom error message is visible on the error bar")]
+        [SerializeField] [Min(0.1f)] private float customErrorVisibilityTime = 3f;
         
         /// <summary>
         /// Hash code of hide animation trigger
@@ -32,12 +37,59 @@ namespace GUTGuide.UI.Components
         /// Flag used to mark if error bar is currently visible at screen
         /// </summary>
         private bool _isVisible;
+        /// <summary>
+        /// Reference to the <see cref="MapsService"/> component
+        /// </summary>
+        private MapsService _mapsService;
+        /// <summary>
+        /// The object of the <see cref="Coroutine"/> launching the custom error message
+        /// </summary>
+        private Coroutine _customErrorCoroutine;
+        /// <summary>
+        /// Reference to the <see cref="Button"/> component of the error message bar
+        /// </summary>
+        private Button _button;
 
         protected override void Awake()
         {
             base.Awake();
 
+            _mapsService = FindObjectOfType<MapsService>();
             _animator = GetComponent<Animator>();
+            _button = GetComponent<Button>();
+        }
+
+        private void OnDisable()
+        {
+            _mapsService.Events.MapEvents.LoadError.RemoveListener(OnMapLoadErrorCallback);
+            _mapsService.Events.MapEvents.Loaded.RemoveListener(OnMapLoadedCallback);
+            _button.onClick.RemoveListener(Hide);
+        }
+
+        private void OnEnable()
+        {
+            _mapsService.Events.MapEvents.LoadError.AddListener(OnMapLoadErrorCallback);
+            _mapsService.Events.MapEvents.Loaded.AddListener(OnMapLoadedCallback);
+            _button.onClick.AddListener(Hide);
+        }
+
+        /// <summary>
+        /// Display custom error message on the error bar
+        /// </summary>
+        /// <param name="message">Message to display</param>
+        public static void CustomError(string message)
+        {
+            if (Instance._isVisible) Instance.Hide();
+            
+            if (Instance._isVisible && Instance._customErrorCoroutine != null)
+                Instance.StopCoroutine(Instance._customErrorCoroutine);
+
+            Instance._customErrorCoroutine = Instance.StartCoroutine(Instance.ShowCustomError(message));
+        }
+
+        private static void OnMapLoadedCallback(MapLoadedArgs arguments)
+        {
+            Instance.Hide();
         }
 
         /// <summary>
@@ -46,7 +98,7 @@ namespace GUTGuide.UI.Components
         /// <param name="errorArgs"><see cref="MapLoadErrorArgs"/> that help identify the issue</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when error type (<see cref="ErrorArgs.DetailedErrorEnum"/>)
         /// is not recognized</exception>
-        public static void MapLoadingError(MapLoadErrorArgs errorArgs)
+        private static void OnMapLoadErrorCallback(MapLoadErrorArgs errorArgs)
         {
             switch (errorArgs.DetailedErrorCode)
             {
@@ -97,6 +149,21 @@ namespace GUTGuide.UI.Components
                     throw new ArgumentOutOfRangeException(nameof(errorArgs.DetailedErrorCode),
                         errorArgs.DetailedErrorCode, "Unrecognized error type!");
             }
+        }
+
+        /// <summary>
+        /// Start the coroutine that displays the custom error message and hides it after a short time
+        /// </summary>
+        /// <param name="message">Message to display</param>
+        /// <returns></returns>
+        private IEnumerator ShowCustomError(string message)
+        {
+            Show();
+            errorText.text = message;
+
+            yield return new WaitForSeconds(customErrorVisibilityTime);
+            
+            Hide();
         }
 
         /// <summary>

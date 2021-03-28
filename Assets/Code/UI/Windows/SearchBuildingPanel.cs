@@ -61,9 +61,12 @@ namespace GUTGuide.UI.Windows
                 // Get the references
                 var gutBuildingCardObject = Instantiate(gutBuildingCardPrefab, searchBuildingPanelContentTransform);
                 var gutBuildingCard = gutBuildingCardObject.GetComponent<GutBuildingCard>();
+                var gutBuildingButton = gutBuildingCardObject.GetComponent<Button>();
 
                 // Initialize the card
                 gutBuildingCard.Initialize(gutBuildingData);
+                
+                gutBuildingButton.onClick.AddListener(Hide);
                 
                 // Add it to local storage
                 _gutBuildingCards.Add(gutBuildingCard);

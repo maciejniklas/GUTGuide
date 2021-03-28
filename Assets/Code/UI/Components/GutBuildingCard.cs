@@ -1,4 +1,5 @@
 ﻿using GUTGuide.DataStructures;
+using GUTGuide.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ namespace GUTGuide.UI.Components
     /// <summary>
     /// Controller of the UI representation of the <see cref="GutBuildingData"/>
     /// </summary>
+    [RequireComponent(typeof(Button))]
     public class GutBuildingCard : MonoBehaviour
     {
         [Tooltip("Reference to the text component of the number label")]
@@ -22,6 +24,23 @@ namespace GUTGuide.UI.Components
         /// Identifier of the building on the map
         /// </summary>
         private string _id;
+
+        private Button _button;
+
+        private void Awake()
+        {
+            _button = GetComponent<Button>();
+        }
+
+        private void OnDisable()
+        {
+            _button.onClick.RemoveListener(OnButtonPressedCallback);
+        }
+
+        private void OnEnable()
+        {
+            _button.onClick.AddListener(OnButtonPressedCallback);
+        }
 
         /// <summary>
         /// Check if <see cref="GutBuildingCard"/> contains given text in the name, shortcut or address
@@ -46,6 +65,19 @@ namespace GUTGuide.UI.Components
             fullNameLabel.text = gutBuildingData.fullName;
             shortcutLabel.text = gutBuildingData.shortcut;
             addressLabel.text = gutBuildingData.address;
+        }
+
+        private void OnButtonPressedCallback()
+        {
+            var buildingTransform = GutBuildingsParent.Instance.GetBuildingTransform(_id);
+
+            if (buildingTransform == null)
+            {
+                ErrorHandler.CustomError("Building out of range");
+                return;
+            }
+            
+            PointingArrow.Instance.SpawnAt(buildingTransform);
         }
     }
 }
