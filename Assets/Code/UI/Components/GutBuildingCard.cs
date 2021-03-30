@@ -1,6 +1,7 @@
 ﻿using GUTGuide.DataStructures;
 using GUTGuide.Utilities;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GUTGuide.UI.Components
@@ -19,13 +20,27 @@ namespace GUTGuide.UI.Components
         [SerializeField] private Text shortcutLabel;
         [Tooltip("Reference to the text component of the address label")]
         [SerializeField] private Text addressLabel;
+        [Tooltip("The toggle that indicates that the building represented by this card is currently the pointed one")]
+        [SerializeField] private Toggle currentlyPointingAtToggle;
+
+        /// <summary>
+        /// The <see cref="UnityEvent"/> called when the pointing arrow spawns
+        /// </summary>
+        public UnityEvent onStartPointingToBuilding;
 
         /// <summary>
         /// Identifier of the building on the map
         /// </summary>
         private string _id;
-
+        /// <summary>
+        /// Reference to the <see cref="Button"/> component of the card
+        /// </summary>
         private Button _button;
+
+        /// <summary>
+        /// Static reference to the card of the currently pointing building
+        /// </summary>
+        private static GutBuildingCard _currentlyPointingAtCard;
 
         private void Awake()
         {
@@ -67,6 +82,57 @@ namespace GUTGuide.UI.Components
             addressLabel.text = gutBuildingData.address;
         }
 
+        /// <summary>
+        /// Because the card is moved to the top of the scroll list when its building starts being pointed after its
+        /// deselect it has to move back to its original position
+        /// </summary>
+        private void MoveToChronologicalPosition()
+        {
+            var currentlyPointingAtCardIdNumber = int.Parse(_currentlyPointingAtCard.numberLabel.text);
+            
+            for (var index = 0; index < transform.parent.childCount; index++)
+            {
+                var idNumber = int.Parse(transform.parent.GetChild(index).GetComponent<GutBuildingCard>().numberLabel
+                    .text);
+
+                if (idNumber <= currentlyPointingAtCardIdNumber) continue;
+                
+                _currentlyPointingAtCard.transform.SetSiblingIndex(index - 1);
+                return;
+            }
+            
+            _currentlyPointingAtCard.transform.SetSiblingIndex(transform.parent.childCount - 1);
+        }
+
+        /// <summary>
+        /// Mark this card as the pointed by arrow
+        /// </summary>
+        /// <returns>True if it is allowed to spawn the arrow because this card was not the one that is currently
+        /// pointed. False if this is the currently pointed card and it could only be deselected and the arrow
+        /// hidden.</returns>
+        private bool MarkAsCurrentlyPointingTo()
+        {
+            if (_currentlyPointingAtCard != null)
+            {
+                MoveToChronologicalPosition();
+                _currentlyPointingAtCard.currentlyPointingAtToggle.isOn = false;
+
+                if (_currentlyPointingAtCard == this)
+                {
+                    _currentlyPointingAtCard = null;
+                    return false;
+                }
+                
+                _currentlyPointingAtCard = null;
+            }
+
+            currentlyPointingAtToggle.isOn = true;
+            _currentlyPointingAtCard = this;
+            transform.SetSiblingIndex(0);
+
+            return true;
+        }
+
         private void OnButtonPressedCallback()
         {
             var buildingTransform = GutBuildingsParent.Instance.GetBuildingTransform(_id);
@@ -76,8 +142,16 @@ namespace GUTGuide.UI.Components
                 ErrorHandler.CustomError("Building out of range");
                 return;
             }
-            
-            PointingArrow.Instance.SpawnAt(buildingTransform);
+
+            if (MarkAsCurrentlyPointingTo())
+            {
+                PointingArrow.Instance.SpawnAt(buildingTransform);
+                onStartPointingToBuilding?.Invoke();
+            }
+            else
+            {
+                PointingArrow.Instance.Hide();
+            }
         }
     }
 }

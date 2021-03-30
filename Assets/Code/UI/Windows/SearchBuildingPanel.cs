@@ -15,8 +15,8 @@ namespace GUTGuide.UI.Windows
     {
         [Tooltip("Input field of searching building name or shortcut ")]
         [SerializeField] private InputField buildingSearchInput;
-        [Tooltip("The content transform of the GUT buildings cards")]
-        [SerializeField] private Transform searchBuildingPanelContentTransform;
+        [Tooltip("Reference to the scroll rect component of the scroll view of the GUT building cards")]
+        [SerializeField] private ScrollRect searchBuildingPanelScrollRect;
         [Tooltip("The prefab of the GUT building list card")]
         [SerializeField] private GameObject gutBuildingCardPrefab;
 
@@ -59,14 +59,12 @@ namespace GUTGuide.UI.Windows
             foreach (var gutBuildingData in Resources.LoadAll<GutBuildingData>("GUTBuildingsData"))
             {
                 // Get the references
-                var gutBuildingCardObject = Instantiate(gutBuildingCardPrefab, searchBuildingPanelContentTransform);
+                var gutBuildingCardObject = Instantiate(gutBuildingCardPrefab, searchBuildingPanelScrollRect.content);
                 var gutBuildingCard = gutBuildingCardObject.GetComponent<GutBuildingCard>();
-                var gutBuildingButton = gutBuildingCardObject.GetComponent<Button>();
 
                 // Initialize the card
                 gutBuildingCard.Initialize(gutBuildingData);
-                
-                gutBuildingButton.onClick.AddListener(Hide);
+                gutBuildingCard.onStartPointingToBuilding.AddListener(Hide);
                 
                 // Add it to local storage
                 _gutBuildingCards.Add(gutBuildingCard);
@@ -99,6 +97,8 @@ namespace GUTGuide.UI.Windows
         public void Show()
         {
             ClearSearchFilter();
+            searchBuildingPanelScrollRect.verticalNormalizedPosition = 1;
+            
             _animator.SetTrigger(ShowAnimationTrigger);
             
             onOpen?.Invoke();
