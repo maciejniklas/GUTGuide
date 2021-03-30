@@ -1,4 +1,5 @@
 ﻿using System;
+using Google.Maps.Unity;
 using GUTGuide.Patterns;
 using UnityEngine;
 using UnityEngine.Events;
@@ -40,7 +41,12 @@ namespace GUTGuide.Utilities
             if (!model.activeSelf) model.SetActive(true);
             
             var targetTransformPosition = targetTransform.position;
-            transform.position = new Vector3(targetTransformPosition.x, 0,  targetTransformPosition.z);
+            var extrudedStructureComponent = targetTransform.GetComponent<ExtrudedStructureComponent>();
+            var modelRenderer = model.GetComponent<Renderer>();
+            var arrowSpawnHeight = extrudedStructureComponent.MapFeature.Shape.BoundingBox.size.y +
+                                   modelRenderer.bounds.size.y / 2 + 5;
+
+            transform.position = new Vector3(targetTransformPosition.x, arrowSpawnHeight, targetTransformPosition.z);
             
             onPointingArrowSpawn?.Invoke();
         }
