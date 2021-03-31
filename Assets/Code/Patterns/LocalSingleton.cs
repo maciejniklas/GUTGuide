@@ -31,7 +31,7 @@ namespace GUTGuide.Patterns
         /// </summary>
         private static bool _isSingletonDestroyed;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             // If the  reference to instance does not exist and  the instance was not destroyed yet then this object
             // will take control
@@ -46,7 +46,7 @@ namespace GUTGuide.Patterns
             }
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             // Skip if the instance is other than this object
             if (_instance != null) return;

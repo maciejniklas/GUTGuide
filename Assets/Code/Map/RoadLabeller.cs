@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GUTGuide.Patterns;
 using GUTGuide.UI.Components;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Code.Map
     /// Component for adding labels to show the names of the roads
     /// </summary>
     [RequireComponent(typeof(Canvas))]
-    public class RoadLabeller : MonoBehaviour
+    public class RoadLabeller : LocalSingleton<RoadLabeller>
     {
         [Tooltip("Template prefab for road labels instantiating")]
         [SerializeField] private RoadLabel roadLabelPrefab;
@@ -30,8 +31,10 @@ namespace Code.Map
         /// </summary>
         private bool _isInitialized;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             var mainCamera = Camera.main;
             
             _roadLabelsByKey = new Dictionary<string, RoadLabel>();
@@ -84,8 +87,8 @@ namespace Code.Map
         /// <returns></returns>
         public RoadLabel Create(Vector3 initialPosition, string roadName)
         {
-            // If the name is empty do not create a new label
-            if (string.IsNullOrWhiteSpace(roadName)) return null;
+            // If the name is empty ot the game object is inactive do not create a new label
+            if (string.IsNullOrWhiteSpace(roadName) || !gameObject.activeSelf) return null;
 
             RoadLabel roadLabel;
 
