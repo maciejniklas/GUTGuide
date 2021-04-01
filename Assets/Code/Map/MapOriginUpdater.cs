@@ -13,6 +13,8 @@ namespace Code.Map
     {
         [Tooltip("Distance in meters the Camera should move before the world's Floating Origin is reset")]
         [SerializeField] [Min(1)] private float updateRange = 200f;
+
+        [SerializeField] private bool dynamicRecenter = false;
         
         /// <summary>
         /// Called whenever this script updates the maps' origin point. Uses recenter offset.
@@ -60,6 +62,8 @@ namespace Code.Map
 
         private void FixedUpdate()
         {
+            if (!dynamicRecenter) return;
+            
             // Collect necessary data
             var currentOriginPoint = CameraPositionOnGroundPlane;
             var distance = Vector3.Distance(_floatingOrigin, currentOriginPoint);
@@ -67,13 +71,18 @@ namespace Code.Map
             // Check if the origin point update is required
             if (updateRange > distance) return;
 
+            Recenter(currentOriginPoint);
+        }
+
+        public void Recenter(Vector3 newCenter)
+        {
             // Update map origin and get the offset due to the previous one
-            var originOffset = _mapsService.MoveFloatingOrigin(currentOriginPoint, _objectsToRecenter);
+            var originOffset = _mapsService.MoveFloatingOrigin(newCenter, _objectsToRecenter);
 
             // Notify listeners
             onMapOriginUpdate.Invoke(originOffset);
             // Remember the new origin point
-            _floatingOrigin = currentOriginPoint;
+            _floatingOrigin = newCenter;
         }
 
         /// <summary>

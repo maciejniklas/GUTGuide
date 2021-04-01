@@ -87,6 +87,17 @@ namespace GUTGuide.UI.Components
             Instance._customErrorCoroutine = Instance.StartCoroutine(Instance.ShowCustomError(message));
         }
 
+        /// <summary>
+        /// Hide notification content
+        /// </summary>
+        public void Hide()
+        {
+            if (!_isVisible) return;
+            
+            _animator.SetTrigger(HideAnimationTrigger);
+            _isVisible = false;
+        }
+
         private static void OnMapLoadedCallback(MapLoadedArgs arguments)
         {
             Instance.Hide();
@@ -174,17 +185,6 @@ namespace GUTGuide.UI.Components
         {
             errorText.text = message;
             Show();
-        }
-
-        /// <summary>
-        /// Hide notification content
-        /// </summary>
-        private void Hide()
-        {
-            if (!_isVisible) return;
-            
-            _animator.SetTrigger(HideAnimationTrigger);
-            _isVisible = false;
         }
 
         /// <summary>

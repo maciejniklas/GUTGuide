@@ -1,10 +1,14 @@
-﻿using Code.Styling;
+﻿using System;
+using System.Collections;
+using Code.Styling;
 using Google.Maps;
 using Google.Maps.Coord;
 using Google.Maps.Loading;
 using GUTGuide.DataStructures;
+using GUTGuide.UI.Components;
 using GUTGuide.Utilities;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.Events;
 
 namespace Code.Map
@@ -19,7 +23,7 @@ namespace Code.Map
         [Header("General settings")]
         
         [Tooltip("Global coordinates of Gdańsk University of Technology")]
-        [SerializeField] private LatLng gutCoordinates = new LatLng(54.3714279,18.6169474);
+        [SerializeField] private LatLng gutCoordinates = new LatLng(54.371477,18.619120);
         [Tooltip("Load the map from the current camera position when it has moved this far")]
         [SerializeField] private float loadDistance = 10f;
         [Tooltip("Angle after which map objects will be updated")]
@@ -73,12 +77,16 @@ namespace Code.Map
         private MapLoader _mapLoader;
 
         private MixedZoom _mixedZoom;
+        private LatLng _lastUserLocation;
+        private bool _isUserLocationMode;
+        private MapOriginUpdater _mapOriginUpdater;
 
         private void Awake()
         {
             _mainCamera = Camera.main;
             _mapLoader = GetComponent<MapLoader>();
             _mixedZoom = GetComponent<MixedZoom>();
+            _mapOriginUpdater = GetComponent<MapOriginUpdater>();
         }
 
         private void Start()
@@ -88,6 +96,12 @@ namespace Code.Map
 
             _mapLoader.Init(_mapDefaultStyle);
             _mapLoader.MapsService.InitFloatingOrigin(gutCoordinates);
+            
+            // Get permissions for using location services
+            if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
+            {
+                Permission.RequestUserPermission(Permission.FineLocation);
+            }
         }
 
         private void Update()
@@ -125,6 +139,36 @@ namespace Code.Map
                 _lastUnloadPosition = mainCameraPosition;
                 
                 onMapRegionUnload?.Invoke(mainCameraPosition, _mixedZoom.ForegroundDistance);
+            }
+
+            if (_isUserLocationMode)
+            {
+                LatLng currentLocation =
+                    new LatLng(Input.location.lastData.latitude, Input.location.lastData.longitude);
+                Vector3 currentWorldLocation = _mapLoader.MapsService.Projection.FromLatLngToVector3(currentLocation);
+                currentWorldLocation.y = targetTransform.position.y;
+                targetTransform.position = Vector3.Lerp(targetTransform.position, currentWorldLocation, Time.deltaTime * 5);
+
+                if (Vector3.Distance(Vector3.zero, currentWorldLocation) > 2)
+                {
+                    _mapOriginUpdater.Recenter(currentWorldLocation);
+                    _lastUserLocation = currentLocation;
+                }
+            }
+        }
+
+        public void SwitchLocationMode()
+        {
+            _isUserLocationMode = !_isUserLocationMode;
+
+            if (_isUserLocationMode)
+            {
+                StartCoroutine(InitializeLocationServices());
+            }
+            else
+            {
+                _mapLoader.MapsService.MoveFloatingOrigin(gutCoordinates);
+                Reload();
             }
         }
 
@@ -166,6 +210,41 @@ namespace Code.Map
             var squasher = buildingObject.AddComponent<Squasher>();
             squasher.Initialize(targetTransform, minimalSquashDistance, maximalSquashDistance,
                 maximalSquashScale);
+        }
+
+        private IEnumerator InitializeLocationServices()
+        {
+            while (!Input.location.isEnabledByUser)
+            {
+                ErrorHandler.CustomError("Waiting for location services to become enabled...");
+                yield return new WaitForSeconds(1);
+            }
+            
+            ErrorHandler.Instance.Hide();
+            
+            Input.location.Start();
+            Input.compass.enabled = true;
+
+            while (true)
+            {
+                if (Input.location.status == LocationServiceStatus.Initializing)
+                {
+                    yield return new WaitForSeconds(1f);
+                }
+                else if (Input.location.status == LocationServiceStatus.Failed)
+                {
+                    Debug.LogError("Location services failed to start!");
+                    yield break;
+                }
+                else if (Input.location.status == LocationServiceStatus.Running)
+                {
+                    break;
+                }
+            }
+
+            _lastUserLocation = new LatLng(Input.location.lastData.latitude, Input.location.lastData.longitude);
+            _mapLoader.MapsService.MoveFloatingOrigin(_lastUserLocation);
+            Reload();
         }
     }
 }
