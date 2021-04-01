@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -584579194, guid: 322c8874b7f0401c8c1211fe39d44d90, type: 3}
+  m_Name: RoadStyleSettings
+  m_EditorClassIdentifier: 
+  Material: {fileID: 2100000, guid: b45a5f70595a6e1449463de43807914d, type: 2}
+  IntersectionMaterial: {fileID: 0}
+  IntersectionArmLength: 3.5
+  IntersectionJoinLength: 7
+  MaxIntersectionArmDistance: 20
+  Width: 7
+  BorderMaterial: {fileID: 2100000, guid: 87cb26c063e7ba5448afbd49b322ce38, type: 2}
+  BorderWidth: 1

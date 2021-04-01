@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0764ae70e4545208ca7755440a611ce, type: 3}
+  m_Name: DefaultStyle
+  m_EditorClassIdentifier: 
+  type: 0
+  areaWaterStyleSettings: {fileID: 11400000, guid: 0efb43490be1a95468bc7dfcc95ec292, type: 2}
+  extrudedStructureStyleSettings: {fileID: 11400000, guid: 0d3a37acbf95e31409be534268e01495, type: 2}
+  lineWaterStyleSettings: {fileID: 11400000, guid: 85fe25a73687e5141a4e94c7ee79bbb3, type: 2}
+  modeledStructureStyleSettings: {fileID: 11400000, guid: 6786d359cef71ac4a8055d3dec5c68ce, type: 2}
+  regionStyleSettings: {fileID: 11400000, guid: 42fcb8f19fde00341b160be26605752f, type: 2}
+  segmentStyleSettings: {fileID: 11400000, guid: f3507d694a3ad7447a2ef120875fc145, type: 2}
+  wallsMaterials:
+  - {fileID: 2100000, guid: 8d567493653305640950d1f4fa160195, type: 2}
+  - {fileID: 2100000, guid: 594defcdd61e9d94d8d135ff10fb23c1, type: 2}
+  - {fileID: 2100000, guid: 25c17e078cfc1ee4b9eb9e777659f77b, type: 2}
+  - {fileID: 2100000, guid: 2255dbca24995474e920abd7dd0d9b2c, type: 2}
+  - {fileID: 2100000, guid: d4806c4927ec8d142b4245ccdf89d9f3, type: 2}
+  - {fileID: 2100000, guid: 14c770dfb0fe3c242a21e22fcda3797c, type: 2}
+  roofMaterials:
+  - {fileID: 2100000, guid: 39da37a5ca62c8c4cb0ad1f62a318390, type: 2}
+  - {fileID: 2100000, guid: 630f28a1911db7c43aadc936e8145551, type: 2}
+  - {fileID: 2100000, guid: ee8150b0b7da7a74cb1734710814a70c, type: 2}
+  - {fileID: 2100000, guid: 7c437871eaa21924d871ca1f9c36afcf, type: 2}
+  - {fileID: 2100000, guid: 1a713f81e6db5634fb6bd94478800e8d, type: 2}
+  - {fileID: 2100000, guid: 141725aadfbb3214da173772d6c9de39, type: 2}
+  parapetMaterial: {fileID: 2100000, guid: 8fcb3fe5674ebd8498a8bc6164b0f049, type: 2}
